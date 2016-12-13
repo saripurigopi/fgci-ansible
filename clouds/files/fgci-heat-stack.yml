@@ -123,6 +123,14 @@ resources:
       networks:
         - network: { get_param: fgci_network }
       metadata: { 'ansible_group': 'install' }
+      user_data:
+        str_replace:
+          template: |
+            #!/bin/bash
+            setenforce 0
+            sed -i '/^SELINUX=/ s/=.*/=permissive' /etc/selinux/config
+          params:
+            $selinux_mode: "permissive"
 
   install_floating_ip_association:
     type: OS::Nova::FloatingIPAssociation
@@ -163,6 +171,15 @@ resources:
           networks:
             - network: { get_param: fgci_network }
           metadata: { 'ansible_group': 'compute' }
+          user_data:
+            str_replace:
+              template: |
+                #!/bin/bash
+                setenforce 0
+                sed -i '/^SELINUX=/ s/=.*/=permissive' /etc/selinux/config
+              params:
+                $selinux_mode: "permissive"
+
 
   grid_public_ip:
     type: OS::Nova::FloatingIP
@@ -181,6 +198,14 @@ resources:
       networks:
         - network: { get_param: fgci_network }
       metadata: { 'ansible_group': 'grid' }
+      user_data:
+        str_replace:
+          template: |
+            #!/bin/bash
+            setenforce 0
+            sed -i '/^SELINUX=/ s/=.*/=permissive' /etc/selinux/config
+          params:
+            $selinux_mode: "permissive"
 
   grid_floating_ip_association:
     type: OS::Nova::FloatingIPAssociation
