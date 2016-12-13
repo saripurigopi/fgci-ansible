@@ -12,24 +12,27 @@ https://github.com/CSC-IT-Center-for-Science/etherpad-deployment-demo
 Usage
 ------
 
- - provision at least three virtual machines
- - set selinux to disabled and reboot - can be done with post-install??
+ - Launch an Ubuntu 16.04 virtual machine in your openstack
 
 Setup of virtual machine + heat and heat deployments
 ---------
 
-Because nova client was unhappy for me on my RHEL7 laptop doing this in an Ubuntu 16.04 VM:
+Because nova client was unhappy for me on my RHEL7 laptop using a Ubuntu 16.04 VM to run ansible.
 
 Remember to allow the VM to SSH into the nodes in the stack and ssh -A (forward SSH agent)
 
 <pre>
 sudo apt-get install python-pip python-setuptools gcc python-dev libssl-dev
 sudo pip install ansible shade
-git clone fgci-ansible
-checkout openstack
-# fetch and source the openrc.sh file from openstack
+git clone https://github.com/CSC-IT-Center-for-Science/fgci-ansible -b openstack
+cd fgci-ansible/clouds
+# fetch and source the openrc.sh file from your tenant in openstack
 # at this point "nova list" should work and you can continue with instructions from 
 # https://github.com/CSC-IT-Center-for-Science/etherpad-deployment-demo
+#
+# for ansible-role-slurm we need to set a mysql password in the secrets file for at least install ansible group:
+echo "---" > group_vars/all/secrets.yml; echo 'slurm_mysql_password: "changeme"' >> group_vars/all/secrets.yml
+ansible-playbook site.yml
 </pre>
 
 Differences
