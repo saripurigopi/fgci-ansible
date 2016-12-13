@@ -189,3 +189,5 @@ daily_download_updates: yes
 daily_apply_updates: yes
 hourly_update_level: "default"
 
+#with ansible-role-users after v1.6.2 one can specify bootstrap user
+bootstrap_user: "cloud-user"
