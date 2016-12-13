@@ -5,6 +5,7 @@
 - name: First add users to install node as root
   hosts: install
   gather_facts: False
+  become: True
 
   roles: 
   - { role: ansible-role-users, tags: [ 'users', 'admin-users', 'user' ] }
