@@ -3,6 +3,8 @@ FGCI-ansible on openstack
 
 Sets up an FGCI cluster in openstack
 
+Only tested with CentOS7, many things are hard coded with EL specific things
+
 Instructions regarding heat:
 
 https://github.com/CSC-IT-Center-for-Science/etherpad-deployment-demo

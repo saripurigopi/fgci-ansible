@@ -127,8 +127,8 @@ resources:
         str_replace:
           template: |
             #!/bin/bash
-            setenforce 0
-            sed -i '/^SELINUX=/ s/=.*/=permissive' /etc/selinux/config
+            /sbin/setenforce 0
+            /bin/sed -i 's/^SELINUX=.*/SELINUX=permissive/' /etc/selinux/config 
           params:
             $selinux_mode: "permissive"
 
@@ -175,8 +175,8 @@ resources:
             str_replace:
               template: |
                 #!/bin/bash
-                setenforce 0
-                sed -i '/^SELINUX=/ s/=.*/=permissive' /etc/selinux/config
+                /sbin/setenforce 0
+                /bin/sed -i 's/^SELINUX=.*/SELINUX=permissive/' /etc/selinux/config 
               params:
                 $selinux_mode: "permissive"
 
@@ -202,8 +202,8 @@ resources:
         str_replace:
           template: |
             #!/bin/bash
-            setenforce 0
-            sed -i '/^SELINUX=/ s/=.*/=permissive' /etc/selinux/config
+            /sbin/setenforce 0
+            /bin/sed -i 's/^SELINUX=.*/SELINUX=permissive/' /etc/selinux/config
           params:
             $selinux_mode: "permissive"
 
