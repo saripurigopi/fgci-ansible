@@ -1,0 +1,57 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars:
+    - heat_environment_file: "fgci-heat-params.yml"
+  tasks:
+    - name: ”Build a heat stack for FGCI Ansible"
+      register: heat_stack
+      os_stack:
+        name: "fgci-stack"
+        state: present
+        template: "files/fgci-single-heat-stack.yml"
+        environment:
+          - "{{ heat_environment_file }}"
+
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: print registered heat_stack variable when verbosity is 2
+      debug: var=heat_stack verbosity=2
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  tasks:
+    - name: Add node to inventory
+      add_host:
+        name: "{{ item.name }}"
+        groups: "{{ item.metadata.ansible_group }}"
+        ansible_ssh_host: "{{ item.addresses[etherpad_network_name][1].addr }}"
+        ansible_ssh_user: "{{ vm_user_account }}"
+      no_log: yes
+      with_items:
+        - "{{ heat_stack.stack.outputs[0].output_value }}"
+      when: item.addresses[etherpad_network_name]|length == 4
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  tasks:
+    - name: Generate an inventory file
+      template: src=templates/fgci_inventory.j2 dest=./fgci_inventory_single
+
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Wait for the FGCI frontend node to become accessible
+      wait_for:
+        host: "{{ hostvars[groups['install'][0]]['ansible_ssh_host'] }}"
+        port: 22
+        state: started
+
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: print groups in ansible inventory when verbosity is 1
+      debug: var=groups verbosity=1

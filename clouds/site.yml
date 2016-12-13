@@ -1,12 +1,11 @@
 # ansible-playbook file: site.yml
 #
-
 # Warning: there are a few steps in between the following roles that still need to be carried out manually.
 #           This playbook is more, at this point, a guideline for the proper deployment sequence 
 
-- include: build-heat-stack.yml
+- include: fgci-cluster-build-heat-stack.yml
 - include: openstack_install.yml
 #- include: nfs.yml
-- include: openstack_login.yml
+#- include: openstack_login.yml
 - include: openstack_compute.yml
 #- include: grid.yml
