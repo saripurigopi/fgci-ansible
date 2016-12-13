@@ -45,7 +45,7 @@ nis_initialize: True
 nis_enabled: True
 
 # DNSmasq
-dnsmasq_listen_address: "{{ int_ip_addr }}"
+dnsmasq_listen_address: "{{ hostvars[groups['install'][0]]['ansible_default_ipv4']['address']  }}"
 
 ## KS profile and server Dir
 ksBootSrvDir: "/var/www/html/ks"
