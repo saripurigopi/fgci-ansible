@@ -48,7 +48,7 @@
   - { role: ansible-role-open-vm-tools, tags: ['open-vm-tools'] }
   - { role: ansible-role-slurm, tags: [ 'slurm' ] }
   - { role: ansible-role-aliases, tags: [ 'aliases', 'email' ] }
-  - { role: ansible-role-collectd, tags: [ 'collectd', 'monitoring' ] }
+#  - { role: ansible-role-collectd, tags: [ 'collectd', 'monitoring' ] }
   - { role: ansible-role-sshd, tags: [ 'sshd', 'ssh' ] }
 #  - { role: ansible-role-postfix, tags: [ 'postfix', 'mail' ] }
   - { role: ansible-role-pdsh-genders, tags: [ 'pdsh', 'genders' ] }
