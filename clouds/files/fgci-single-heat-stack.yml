@@ -19,11 +19,6 @@ parameters:
   single_node_allow_ssh_cidr:
     description: The CIDR where SSH is allowed to the single node from.
     type: string
-  single_node_allow_single_cidr:
-    description: >
-      The CIDR of the network where the application should be
-      accessible. Use 0.0.0.0/0 to allow access from anywhere.
-    type: string
   floating_ip_pool:
     type: string
     label: Floating IP pool
