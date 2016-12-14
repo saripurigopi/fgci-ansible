@@ -52,6 +52,7 @@
   tasks:
     - name: Wait for the FGCI grid node to become accessible
       wait_for:
+        delay: 4
         host: "{{ hostvars[groups['grid'][0]]['ansible_ssh_host'] }}"
         port: 22
         state: started

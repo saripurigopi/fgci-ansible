@@ -103,6 +103,7 @@
   tasks:
     - name: Wait for the FGCI frontend node to become accessible
       wait_for:
+        delay: 2
         host: "{{ hostvars[groups['install'][0]]['ansible_ssh_host'] }}"
         port: 22
         state: started
@@ -112,6 +113,7 @@
   tasks:
     - name: Wait for the Galera cluster nodes to become accessible
       wait_for:
+        delay: 2
         host: "{{ ansible_ssh_host }}"
         port: 22
         state: started
