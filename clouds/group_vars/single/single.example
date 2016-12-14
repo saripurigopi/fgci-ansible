@@ -16,6 +16,24 @@ install_ssh_host_keys: False
 # Do install the known_hosts files
 install_ssh_known_hosts_from_http: True
 
+# override fgci default firewall rules
+ferm_rules:
+ 05_ssh:
+ - chain: INPUT
+   domains: [ip, ip6]
+   rules:
+     - {rule: "policy DROP;",  comment: "global policy"}
+     - {rule: "mod state state INVALID DROP;", comment: "connection tracking: drop"}
+     - {rule: "mod state state (ESTABLISHED RELATED) ACCEPT;", comment: "connection tracking"}
+     - {rule: "interface lo ACCEPT;", comment: "allow local packet"}
+     - {rule: "proto icmp ACCEPT;", comment: "respond to ping"}
+ - chain: OUTPUT
+   domains:
+     - ip
+     - ip6
+   rules:
+     - rule: "policy ACCEPT;"
+       comment: global policy
 
 # Ferm - firewall
 ferm_rules_extra:
@@ -39,7 +57,7 @@ ferm_rules_extra:
 
 # Fail2ban - firewall
 fail2ban_config:
-  ignoreip: 127.0.0.0/8 {{ internal_net }} {{ trusted_public_networks }}
+  ignoreip: 127.0.0.0/8 {{ trusted_public_networks }}
   bantime: 600
   findtime: 1800
   maxretry: 8
