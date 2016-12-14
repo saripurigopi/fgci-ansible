@@ -4,7 +4,7 @@
   vars:
     - heat_environment_file: "fgci-heat-params.yml"
   tasks:
-    - name: ”Build a heat stack for FGCI Ansible"
+    - name: ”Build a single node heat stack for FGCI Ansible"
       register: heat_stack
       os_stack:
         name: "fgci-single-stack"

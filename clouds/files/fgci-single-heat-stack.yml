@@ -7,21 +7,21 @@ parameters:
   ssh_key_name:
     description: The name of the SSH key in OpenStack to add to hosts.
     type: string
-  grid_node_flavor:
-    description: The flavor to use for the grid VM
+  single_node_flavor:
+    description: The flavor to use for the single VM
     type: string
-  grid_node_image:
-    description: The image to use for the grid VM
+  single_node_image:
+    description: The image to use for the single VM
     type: string
   fgci_network:
     description: The internal network to use
     type: string
-  grid_node_allow_ssh_cidr:
-    description: The CIDR where SSH is allowed to the grid node from.
+  single_node_allow_ssh_cidr:
+    description: The CIDR where SSH is allowed to the single node from.
     type: string
-  grid_node_allow_grid_cidr:
+  single_node_allow_single_cidr:
     description: >
-      The CIDR of the network where the Grid application should be
+      The CIDR of the network where the application should be
       accessible. Use 0.0.0.0/0 to allow access from anywhere.
     type: string
   floating_ip_pool:
@@ -42,7 +42,7 @@ resources:
       name: fgci_frontend_secgroup
       rules:
         - protocol: tcp
-          remote_ip_prefix: { get_param: grid_node_allow_ssh_cidr }
+          remote_ip_prefix: { get_param: single_node_allow_ssh_cidr }
           port_range_min: 22
           port_range_max: 22
 
@@ -51,23 +51,23 @@ resources:
     properties:
       pool: { get_param: floating_ip_pool }
 
-  grid_public_ip:
+  single_public_ip:
     type: OS::Nova::FloatingIP
     properties:
       pool: { get_param: floating_ip_pool }
 
-  grid_node:
+  single_node:
     type: OS::Nova::Server
     properties:
-      name: grid_node
-      flavor: { get_param: grid_node_flavor }
-      image: { get_param: grid_node_image }
+      name: single_node
+      flavor: { get_param: single_node_flavor }
+      image: { get_param: single_node_image }
       key_name: { get_param: ssh_key_name }
       security_groups:
         - { get_resource: frontend_secgroup }
       networks:
         - network: { get_param: fgci_network }
-      metadata: { 'ansible_group': 'grid' }
+      metadata: { 'ansible_group': 'single' }
       user_data:
         str_replace:
           template: |
@@ -77,13 +77,13 @@ resources:
           params:
             $selinux_mode: "permissive"
 
-  grid_floating_ip_association:
+  single_floating_ip_association:
     type: OS::Nova::FloatingIPAssociation
     properties:
-      floating_ip: { get_resource: grid_public_ip }
-      server_id: { get_resource: grid_node }
+      floating_ip: { get_resource: single_public_ip }
+      server_id: { get_resource: single_node }
 
 outputs:
-  grid_node:
-    description: The Grid node
-    value: { get_attr: [grid_node, show] }
+  single_node:
+    description: The Single node
+    value: { get_attr: [single_node, show] }
