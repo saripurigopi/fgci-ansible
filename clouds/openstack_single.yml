@@ -2,8 +2,8 @@
 
 ######################### LOGIN
 
-- name: Login Node
-  hosts: login
+- name: Grid Node
+  hosts: grid
   become: yes
   vars:
     - disable_packages: [] # no firewalld on pouta CentOS7 image
