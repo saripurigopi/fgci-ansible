@@ -7,7 +7,7 @@
     - name: ”Build a heat stack for FGCI Ansible"
       register: heat_stack
       os_stack:
-        name: "fgci-stack"
+        name: "fgci-single-stack"
         state: present
         template: "files/fgci-single-heat-stack.yml"
         environment:
