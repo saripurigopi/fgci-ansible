@@ -2,7 +2,7 @@ FGCI-ansible on openstack
 =========================
 
 playbooks:
- - single.yml: sets up a single FGCI style node with Nordugrid ARC client, all the certificates and CVMFS
+ - single.yml: sets up a single FGCI style node with Nordugrid ARC client, all the certificates , CVMFS and modules with scientific software
  - site.yml: sets up a FGCI style cluster
 
 Only tested with CentOS7, many things are hard coded with EL specific things
@@ -21,18 +21,15 @@ Usage
 ------
 
 Step 0:
- - Launch an Ubuntu 16.04 virtual machine in your openstack
+ - Get an environment where you can run ansible and nova (talks with openstack). This can be done in several ways. See https://research.csc.fi/pouta-install-client for some examples. For example setup a python virtual environment, "pip install shade ansible" in there and then proceed does not require root access on your machine.
 
-Setup of virtual machine + heat and heat deployments
+Configuration
 ---------
-
-Because nova client was unhappy for me on my RHEL7 laptop using a Ubuntu 16.04 VM to run ansible.
 
 Remember to allow the VM to SSH into the nodes in the stack and think about where your ssh key is. ssh -A can be used to forward the SSH agent
 
+Step 1:
 <pre>
-sudo apt-get install python-pip python-setuptools gcc python-dev libssl-dev
-sudo pip install ansible shade
 git clone https://github.com/CSC-IT-Center-for-Science/fgci-ansible -b openstack
 cd fgci-ansible/clouds
 cp -v ../examples/group_vars/all/secrets.example group_vars/all/secrets.yml # copy secrets file
@@ -45,12 +42,15 @@ cp -v example-fgci-heat-params.yml fgci-heat-params.yml
 $EDITOR fgci-heat-params.yml # see heat instructions URL above
 </pre>
 
-Then run either playbook:
+Running ansible
+---------------
+
+Then run either site playbook for an FGCI cluster:
 <pre>
 ansible-playbook site.yml
 </pre>
 
-or
+or single playbook for a single FGCI style node:
 
 <pre>
 ansible-playbook single.yml
