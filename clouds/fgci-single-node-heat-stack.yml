@@ -52,7 +52,7 @@
   tasks:
     - name: Wait for the FGCI single node to become accessible
       wait_for:
-        delay: 4
+        delay: 10
         host: "{{ hostvars[groups['single'][0]]['ansible_ssh_host'] }}"
         port: 22
         state: started
