@@ -10,18 +10,24 @@ Only tested with CentOS7, many things are hard coded with EL specific things
 Instructions regarding heat:
  - https://github.com/CSC-IT-Center-for-Science/etherpad-deployment-demo
 
-Instructions regarding how to get the openrc.sh file and how to use it:
+Instructions regarding how to get the openrc.sh file and setup an environment where you can run ansible.
  - https://research.csc.fi/pouta-command-line-tools
 
 Instructions regarding FGCI, modules and certificates:
  - https://research.csc.fi/fgci-user-guide
  - https://research.csc.fi/fgci-grid-certificates#1.1.3
 
-Usage
+Usage - a place where one can run ansible
 ------
 
-Step 0:
- - Get an environment where you can run ansible and nova (talks with openstack). This can be done in several ways. See https://research.csc.fi/pouta-install-client for some examples. For example setup a python virtual environment, "pip install shade ansible" in there and then proceed does not require root access on your machine.
+Also you need "shade" which provides the nova tool to interface with openstack.
+
+ - Get an environment where you can run ansible and nova (talks with openstack). This can be done in several ways. See https://research.csc.fi/pouta-install-client for some examples. For example setup a python virtual environment.
+
+<pre> 
+virtualenv osclient
+pip install shade ansible
+</pre>
 
 Configuration
 ---------
