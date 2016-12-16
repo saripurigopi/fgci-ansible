@@ -37,6 +37,7 @@ git clone https://github.com/CSC-IT-Center-for-Science/fgci-ansible -b openstack
 cd fgci-ansible/clouds
 cp -v ../examples/group_vars/all/secrets.example group_vars/all/secrets.yml # copy secrets file
 $EDITOR group_vars/all/secrets.yml # set a slurm_mysql_password + mail address
+$EDITOR group_vars/all/heat.yml # set ssh user and the openstack network name
 cd ..; ansible-galaxy install -r requirements.yml; cd clouds # install ansible roles
 # fetch and source the openrc.sh file from your tenant in openstack
 source tenant-openrc.sh

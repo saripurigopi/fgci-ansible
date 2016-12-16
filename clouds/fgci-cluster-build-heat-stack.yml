@@ -27,7 +27,7 @@
       add_host:
         name: "{{ item.name }}"
         groups: "{{ item.metadata.ansible_group }}"
-        ansible_ssh_host: "{{ item.addresses[etherpad_network_name][0].addr }}"
+        ansible_ssh_host: "{{ item.addresses[openstack_network_name][0].addr }}"
         ansible_ssh_user: "{{ vm_user_account }}"
       no_log: yes
       with_items:
@@ -35,7 +35,7 @@
         - "{{ heat_stack.stack.outputs[1].output_value }}"
         - "{{ heat_stack.stack.outputs[2].output_value }}"
         - "{{ heat_stack.stack.outputs[3].output_value }}"
-      when: item.addresses[etherpad_network_name]|length == 1
+      when: item.addresses[openstack_network_name]|length == 1
 
 - hosts: localhost
   gather_facts: no
@@ -45,7 +45,7 @@
       add_host:
         name: "{{ item.name }}"
         groups: "{{ item.metadata.ansible_group }}"
-        ansible_ssh_host: "{{ item.addresses[etherpad_network_name][1].addr }}"
+        ansible_ssh_host: "{{ item.addresses[openstack_network_name][1].addr }}"
         ansible_ssh_user: "{{ vm_user_account }}"
       no_log: yes
       with_items:
@@ -53,7 +53,7 @@
         - "{{ heat_stack.stack.outputs[1].output_value }}"
         - "{{ heat_stack.stack.outputs[2].output_value }}"
         - "{{ heat_stack.stack.outputs[3].output_value }}"
-      when: item.addresses[etherpad_network_name]|length == 2
+      when: item.addresses[openstack_network_name]|length == 2
 
 - hosts: localhost
   gather_facts: no
@@ -63,7 +63,7 @@
       add_host:
         name: "{{ item.name }}"
         groups: "{{ item.metadata.ansible_group }}"
-        ansible_ssh_host: "{{ item.addresses[etherpad_network_name][2].addr }}"
+        ansible_ssh_host: "{{ item.addresses[openstack_network_name][2].addr }}"
         ansible_ssh_user: "{{ vm_user_account }}"
       no_log: yes
       with_items:
@@ -71,7 +71,7 @@
         - "{{ heat_stack.stack.outputs[1].output_value }}"
         - "{{ heat_stack.stack.outputs[2].output_value }}"
         - "{{ heat_stack.stack.outputs[3].output_value }}"
-      when: item.addresses[etherpad_network_name]|length == 3
+      when: item.addresses[openstack_network_name]|length == 3
 
 - hosts: localhost
   gather_facts: no
@@ -81,7 +81,7 @@
       add_host:
         name: "{{ item.name }}"
         groups: "{{ item.metadata.ansible_group }}"
-        ansible_ssh_host: "{{ item.addresses[etherpad_network_name][1].addr }}"
+        ansible_ssh_host: "{{ item.addresses[openstack_network_name][1].addr }}"
         ansible_ssh_user: "{{ vm_user_account }}"
       no_log: yes
       with_items:
@@ -89,7 +89,7 @@
         - "{{ heat_stack.stack.outputs[1].output_value }}"
         - "{{ heat_stack.stack.outputs[2].output_value }}"
         - "{{ heat_stack.stack.outputs[3].output_value }}"
-      when: item.addresses[etherpad_network_name]|length == 4
+      when: item.addresses[openstack_network_name]|length == 4
 
 - hosts: localhost
   gather_facts: no
