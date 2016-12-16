@@ -10,6 +10,9 @@ Only tested with CentOS7, many things are hard coded with EL specific things
 Instructions regarding heat:
  - https://github.com/CSC-IT-Center-for-Science/etherpad-deployment-demo
 
+Instructions regarding how to get the openrc.sh file and how to use it:
+ - https://research.csc.fi/pouta-command-line-tools
+
 Instructions regarding FGCI, modules and certificates:
  - https://research.csc.fi/fgci-user-guide
  - https://research.csc.fi/fgci-grid-certificates#1.1.3
@@ -32,9 +35,9 @@ sudo apt-get install python-pip python-setuptools gcc python-dev libssl-dev
 sudo pip install ansible shade
 git clone https://github.com/CSC-IT-Center-for-Science/fgci-ansible -b openstack
 cd fgci-ansible/clouds
-cp -v ../examples/group_vars/all/secrets.example group_vars/all/secrets.yml # copy secrets file and set a password + mail address
-$EDITOR group_vars/all/secrets.yml
-cd ..; ansible-galaxy install -r requirements.yml # install ansible roles; cd clouds
+cp -v ../examples/group_vars/all/secrets.example group_vars/all/secrets.yml # copy secrets file
+$EDITOR group_vars/all/secrets.yml # set a slurm_mysql_password + mail address
+cd ..; ansible-galaxy install -r requirements.yml; cd clouds # install ansible roles
 # fetch and source the openrc.sh file from your tenant in openstack
 source tenant-openrc.sh
 cp -v example-fgci-heat-params.yml fgci-heat-params.yml

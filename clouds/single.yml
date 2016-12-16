@@ -1,7 +1,13 @@
-# ansible-playbook file: site.yml
+---
+# ansible-playbook file: single.yml
 #
-# Warning: there are a few steps in between the following roles that still need to be carried out manually.
-#           This playbook is more, at this point, a guideline for the proper deployment sequence 
-
 - include: fgci-single-node-heat-stack.yml
 - include: openstack_single.yml
+
+- hosts: single
+  gather_facts: no
+  tasks:
+    - name: Print Public IP of the single FGCI node
+      debug:
+        var: hostvars['single_node'].ansible_ssh_host
+...
