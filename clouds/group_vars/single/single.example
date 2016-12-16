@@ -140,3 +140,6 @@ kickstart_packages: |
   yum-plugin-fastestmirror
   Lmod
 
+#ansible-role-yum update all the things
+yum_update_all_the_things: True
+
