@@ -50,7 +50,7 @@
 - hosts: localhost
   gather_facts: no
   tasks:
-    - name: Wait for the FGCI grid node to become accessible
+    - name: Wait for the FGCI single node to become accessible
       wait_for:
         delay: 4
         host: "{{ hostvars[groups['single'][0]]['ansible_ssh_host'] }}"
