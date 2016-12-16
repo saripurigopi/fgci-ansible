@@ -1,18 +1,23 @@
 FGCI-ansible on openstack
 =========================
 
-Sets up an FGCI cluster in openstack
+playbooks:
+ - single.yml: sets up a single FGCI style node with Nordugrid ARC client, all the certificates and CVMFS
+ - site.yml: sets up a FGCI style cluster
 
 Only tested with CentOS7, many things are hard coded with EL specific things
 
 Instructions regarding heat:
+ - https://github.com/CSC-IT-Center-for-Science/etherpad-deployment-demo
 
-https://github.com/CSC-IT-Center-for-Science/etherpad-deployment-demo
+Instructions regarding FGCI, modules and certificates:
+ - https://research.csc.fi/fgci-user-guide
+ - https://research.csc.fi/fgci-grid-certificates#1.1.3
 
 Usage
 ------
 
-Step 1:
+Step 0:
  - Launch an Ubuntu 16.04 virtual machine in your openstack
 
 Setup of virtual machine + heat and heat deployments
@@ -27,15 +32,25 @@ sudo apt-get install python-pip python-setuptools gcc python-dev libssl-dev
 sudo pip install ansible shade
 git clone https://github.com/CSC-IT-Center-for-Science/fgci-ansible -b openstack
 cd fgci-ansible/clouds
-# fetch and source the openrc.sh file from your tenant in openstack
-# at this point "nova list" should work and you can continue with instructions from 
-# https://github.com/CSC-IT-Center-for-Science/etherpad-deployment-demo
-#
-# copy secrets file and set a password + mail address
-cp -v ../examples/group_vars/all/secrets.example group_vars/all/secrets.yml
+cp -v ../examples/group_vars/all/secrets.example group_vars/all/secrets.yml # copy secrets file and set a password + mail address
 $EDITOR group_vars/all/secrets.yml
-# run ansible
+cd ..; ansible-galaxy install -r requirements.yml # install ansible roles; cd clouds
+# fetch and source the openrc.sh file from your tenant in openstack
+source tenant-openrc.sh
+cp -v example-fgci-heat-params.yml fgci-heat-params.yml
+$EDITOR fgci-heat-params.yml # see heat instructions URL above
+</pre>
+
+Then run either playbook:
+<pre>
 ansible-playbook site.yml
+</pre>
+
+or
+
+<pre>
+ansible-playbook single.yml
+ssh IP
 </pre>
 
 Differences
