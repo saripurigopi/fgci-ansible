@@ -68,3 +68,10 @@ Known Limitations:
 ------------------
 
  - The "reinstall" script doesn't work. How to tie this into openstack reprovision?
+ - If you see this - just run ansible again:
+<pre>
+TASK [setup] *******************************************************************
+Friday 16 December 2016  10:55:44 +0000 (0:00:08.419)       0:00:35.512 ******* 
+fatal: [single_node]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: Warning: Permanently added 'PUBLIC.IP.HERE' (ECDSA) to the list of known hosts.\r\nPermission denied (publickey,gssapi-keyex,gssapi-with-mic,password).\r\n", "unreachable": true}
+</pre>
+
