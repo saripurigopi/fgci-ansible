@@ -119,7 +119,7 @@ resources:
       image: { get_param: install_node_image }
       key_name: { get_param: ssh_key_name }
       security_groups:
-        - { get_resource: frontend_secgroup }
+        - { get_resource: backend_secgroup }
       networks:
         - network: { get_param: fgci_network }
       metadata: { 'ansible_group': 'install' }
