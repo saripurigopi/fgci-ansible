@@ -1,0 +1,28 @@
+---
+
+######################### LOGIN
+
+- name: Dual Node
+  hosts: dual
+  become: yes
+  vars:
+    - disable_packages: [] # no firewalld on pouta CentOS7 image
+
+  roles: 
+  - { role: ansible-role-fgci-repo, tags: [ 'fgci7', 'repos' ] }
+  - { role: ansible-role-yum, tags: [ 'yum', 'repos' ] }
+  - { role: ansible-role-selinux, tags: [ 'selinux' ] }
+  - { role: ansible-role-ferm-firewall, tags: [ 'firewall', 'network' ] }
+  - { role: ansible-role-fail2ban, tags: [ 'firewall', 'fail2ban', 'network' ] }
+  - { role: ansible-role-chrony, tags: [ 'ntp', 'chrony'] }
+  - { role: ansible-role-yum-cron-2, tags: [ 'yumcron' ] }
+  - { role: ansible-role-autofs, tags: [ 'autofs' ] }
+  - { role: ansible-role-fgci-login, tags: [ 'login'] }  
+  - { role: ansible-role-cvmfs, tags: [ 'cvmfs' ] }
+  - { role: ansible-role-aliases, tags: [ 'aliases', 'email' ] }
+  - { role: ansible-role-system-limits, tags: [ 'limits', 'limit' ] }
+  - { role: ansible-role-arc-client, tags: [ 'arc', 'nordugrid' ] }
+  - { role: ansible-role-fgci-bash, tags: [ 'bash'] }  
+  - { role: ansible-role-postfix, tags: [ 'postfix', 'mail' ] }
+  - { role: ansible-role-systemd-journal, tags: [ 'systemd', 'journal', 'journald' ] }
+

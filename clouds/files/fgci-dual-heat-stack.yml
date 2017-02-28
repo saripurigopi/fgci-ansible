@@ -1,0 +1,112 @@
+heat_template_version: 2015-10-15
+
+description: >
+  Build two FGCI machine
+
+parameters:
+  ssh_key_name:
+    description: The name of the SSH key in OpenStack to add to hosts.
+    type: string
+  single_node_flavor:
+    description: The flavor to use for the single VM
+    type: string
+  single_node_image:
+    description: The image to use for the single VM
+    type: string
+  fgci_network:
+    description: The internal network to use
+    type: string
+  single_node_allow_ssh_cidr:
+    description: The CIDR where SSH is allowed to the single node from.
+    type: string
+  floating_ip_pool:
+    type: string
+    label: Floating IP pool
+    description: The pool from which floating IPs should be reserved.
+    default: 'public'
+  fgci_network_cidr:
+    type: string
+    description: The CIDR of the internal network for the instances
+    default: '192.168.1.0/24'
+
+resources:
+
+  frontend_secgroup:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      name: fgci_frontend_secgroup
+      rules:
+        - protocol: tcp
+          remote_ip_prefix: { get_param: single_node_allow_ssh_cidr }
+          port_range_min: 22
+          port_range_max: 22
+
+  dual1_public_ip:
+    type: OS::Nova::FloatingIP
+    properties:
+      pool: { get_param: floating_ip_pool }
+  dual2_public_ip:
+    type: OS::Nova::FloatingIP
+    properties:
+      pool: { get_param: floating_ip_pool }
+
+  dual_node1:
+    type: OS::Nova::Server
+    properties:
+      name: dual_node1
+      flavor: { get_param: single_node_flavor }
+      image: { get_param: single_node_image }
+      key_name: { get_param: ssh_key_name }
+      security_groups:
+        - { get_resource: frontend_secgroup }
+      networks:
+        - network: { get_param: fgci_network }
+      metadata: { 'ansible_group': 'dual' }
+      user_data:
+        str_replace:
+          template: |
+            #!/bin/bash
+            /sbin/setenforce 0
+            /bin/sed -i 's/^SELINUX=.*/SELINUX=permissive/' /etc/selinux/config
+          params:
+            $selinux_mode: "permissive"
+
+  dual_node2:
+    type: OS::Nova::Server
+    properties:
+      name: dual_node2
+      flavor: { get_param: single_node_flavor }
+      image: { get_param: single_node_image }
+      key_name: { get_param: ssh_key_name }
+      security_groups:
+        - { get_resource: frontend_secgroup }
+      networks:
+        - network: { get_param: fgci_network }
+      metadata: { 'ansible_group': 'dual' }
+      user_data:
+        str_replace:
+          template: |
+            #!/bin/bash
+            /sbin/setenforce 0
+            /bin/sed -i 's/^SELINUX=.*/SELINUX=permissive/' /etc/selinux/config
+          params:
+            $selinux_mode: "permissive"
+
+  dual1_floating_ip_association:
+    type: OS::Nova::FloatingIPAssociation
+    properties:
+      floating_ip: { get_resource: dual1_public_ip }
+      server_id: { get_resource: dual_node1 }
+  dual2_floating_ip_association:
+    type: OS::Nova::FloatingIPAssociation
+    properties:
+      floating_ip: { get_resource: dual2_public_ip }
+      server_id: { get_resource: dual_node2 }
+
+outputs:
+  dual_node1:
+    description: dual node1
+    value: { get_attr: [dual_node1, show] }
+  dual_node2:
+    description: dual node2
+    value: { get_attr: [dual_node2, show] }
