@@ -42,7 +42,9 @@ cd fgci-ansible/clouds
 cp -v ../examples/group_vars/all/secrets.example group_vars/all/secrets.yml # copy secrets file
 $EDITOR group_vars/all/secrets.yml # set a slurm_mysql_password + mail address
 $EDITOR group_vars/all/heat.yml # set ssh user and the openstack network name
-cd ..; ansible-galaxy install -r requirements.yml; cd clouds # install ansible roles
+cd ..
+grep -v version: requirements.yml > requirements2.yml
+ansible-galaxy install -r requirements2.yml; cd clouds # install latest of every ansible role as this branch has not been rebased/synced with master
 # fetch and source the openrc.sh file from your tenant in openstack
 source tenant-openrc.sh
 cp -v example-fgci-heat-params.yml fgci-heat-params.yml
