@@ -22,10 +22,11 @@ Usage - a place where one can run ansible
 
 Also you need "shade" which provides the nova tool to interface with openstack.
 
- - Get an environment where you can run ansible and nova (talks with openstack). This can be done in several ways. See https://research.csc.fi/pouta-install-client for some examples. For example setup a python virtual environment.
+ - Get an environment where you can run ansible and nova (talks with openstack). This can be done in several ways. See https://research.csc.fi/pouta-install-client for some examples. For example setup a python virtual environment:
 
 <pre> 
 virtualenv osclient
+source osclient/bin/activate
 pip install shade ansible
 </pre>
 
