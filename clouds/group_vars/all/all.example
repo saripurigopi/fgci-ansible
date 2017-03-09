@@ -64,7 +64,7 @@ repos:
 
 hyper: "{{siteName}}-admin.{{siteDomain}}"
 bastion_host: "{{siteName}}-admin.{{siteDomain}}"
-http_proxy: "http://install:3128"
+http_proxy: "http://install_node:3128"
 env_virt_install: { http_proxy: "{{ http_proxy }}" }
 libvirt_pool_name: "vms"
 libvirt_pool_type: "dir"
