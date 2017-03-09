@@ -10,6 +10,10 @@
   roles: 
   - { role: ansible-role-users, tags: [ 'users', 'admin-users', 'user' ] }
 #  - { role: ansible-role-fgci-install, tags: [ 'fgci-install', 'gitmirror' ] }
+#
+- name: grab facts from production nodes
+  hosts: production
+  tasks: [ ]
 
 - name: Install Node
   hosts: install
@@ -17,7 +21,7 @@
     - gitmirror_generate_config: False
     - disable_packages: [] # no firewalld on pouta CentOS7 image
     - slurm_munge_key_to_nfs: False
-    - slurm_compute_nodes: "compute1"
+    - slurm_compute_nodes: "c[0-1]"
     - nis_secure_net: "{{ int_net_mask }} {{ int_net_addr }}"
 
   become: True

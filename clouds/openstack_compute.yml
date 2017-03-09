@@ -9,9 +9,10 @@
 - name: Compute Nodes
   hosts: compute
   become: True
+  strategy: free
   vars:
     - slurm_munge_key_to_nfs: False
-    - slurm_compute_nodes: "compute1"
+    - slurm_compute_nodes: "c[0-1]"
     - slurm_manage_sysctl: False
 
   pre_tasks:
