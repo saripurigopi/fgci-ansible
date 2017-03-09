@@ -152,7 +152,7 @@ collectd_network_server: False
 collectd_plugin_packages:
  - collectd-write_tsdb
 
-kickstart_server_ip: "install"
+kickstart_server_ip: "install_node"
 pull_install_ip: "{{ kickstart_server_ip }}"
 
 #NIS
