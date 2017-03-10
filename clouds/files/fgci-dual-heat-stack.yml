@@ -40,6 +40,12 @@ resources:
           remote_ip_prefix: { get_param: single_node_allow_ssh_cidr }
           port_range_min: 22
           port_range_max: 22
+        - protocol: tcp
+          remote_ip_prefix: { get_param: fgci_network_cidr }
+        - protocol: udp
+          remote_ip_prefix: { get_param: fgci_network_cidr }
+        - protocol: icmp
+          remote_ip_prefix: 0.0.0.0/0
 
   dual1_public_ip:
     type: OS::Nova::FloatingIP
