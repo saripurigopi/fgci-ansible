@@ -179,10 +179,32 @@ dell_install_helper_scripts: False
 postfix_relayhost: "smtp.csc.fi"
 postfix_mydomain: "{{ siteDomain }}"
 
+# For overriding all of the postfix defaults in a role
+#
+#postfix_custom_main: |
+# myhostname = {{ ansible_fqdn }}
+# mydomain = example.com
+# myorigin = $myhostname
+# relayhost = smtp.example.com
+# alias_maps = hash:/etc/aliases
+# alias_database = hash:/etc/aliases
+# inet_interfaces = loopback-only
+# inet_protocols = ipv4
+# mydestination = $myhostname, localhost.$mydomain, localhost
+# masquerade_domains = example.com
+
+slurm_repo: "ohpc"
 slurm_compute_nodes: "{{ nodeBase }}[1-4]"
 slurm_gpu_nodes: "{{ nodeGpuBase }}[5-6]"
 
 slurm_compute_threadspercore: "1"
+
+# What type is the gpu card eg. teslak80
+#slurm_gpu_type: "teslak80"
+
+# How many /dev/nvidiaXX you see, how many gpu cards per node
+#slurm_gpu_count: "8"
+
 #slurm_partitionlist:
 # - "PartitionName=normal Nodes={{ slurm_compute_nodes }},{{ slurm_gpu_nodes }} Default=YES MaxTime={{ slurm_max_job_time }} State=UP DefaultTime={{ slurm_job_def_time }}"
 # - "PartitionName=test Nodes={{ slurm_compute_nodes }} Default=NO MaxTime={{ slurm_max_job_time }} State=UP DefaultTime={{ slurm_job_def_time }}"
